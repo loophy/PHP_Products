@@ -11,6 +11,8 @@
 	$pro_code=$_POST['code'];
 	$pro_name=$_POST['name'];
 	$pro_price=$_POST['price'];
+	$pro_gazou_name_old=$_POST['gazou_name_old'];
+	$pro_gazou=$_FILES['gazou'];
 
 	$pro_code=htmlspecialchars($pro_code);
 	$pro_name=htmlspecialchars($pro_name);
@@ -30,7 +32,7 @@
 	// 半角チェック
 	if (preg_match('/^[0-9]+$/', $pro_price)==0)
 	{
-		print '価格を性格に入力してください。<br />';
+		print '価格を正確に入力してください。<br />';
 	}
 	else
 	{
@@ -39,7 +41,21 @@
 		print '円<br />';
 	}
 
-	if($pro_name=='' || preg_match('/^[0-9]+$/', $pro_price)==0)
+	if ($pro_gazou['size']>0)
+	{
+		if ($pro_gazou['size']>1000000)
+		{
+			print '画像が大きすぎます';
+		}
+		else
+		{
+			move_uploaded_file($pro_gazou['tmp_name'], './gazou/'.$pro_gazou['name']);
+			print '<img src="./gazou/'.$pro_gazou['name'].'"/>';
+			print '<br />';
+		}
+	}
+
+	if($pro_name=='' || preg_match('/^[0-9]+$/', $pro_price)==0 || $pro_gazou['size']>1000000)
 	{
 		print '<form>';
 		print '<input type="button" onclick="history.back()" value="戻る">';
@@ -52,6 +68,9 @@
 		print '<input type="hidden" name="code" value="'.$pro_code.'">';
 		print '<input type="hidden" name="name" value="'.$pro_name.'">';
 		print '<input type="hidden" name="price" value="'.$pro_price.'">';
+		// FIXME:画像が空なら削除しないで、元のままにしたい
+		print '<input type="hidden" name="gazou_name_old" value="'.$pro_gazou_name_old.'">';
+		print '<input type="hidden" name="price" value="'.$pro_gazou['gazou_name'].'">';
 		print '<br />';
 		print '<input type="button" onclick="history.back()" value="戻る">';
 		print '<input type="submit" value="OK">';
