@@ -11,6 +11,7 @@
 	try
 	{
 		$pro_code=$_POST['code'];
+		$pro_gazou_name=$_POST['gazou_name'];
 
 		$dsn='mysql:dbname=shop;host=localhost';
 		$user='root';
@@ -24,6 +25,11 @@
 		$stmt->execute($data);
 
 		$dbh=null;
+
+		if ($pro_gazou_name!='')
+		{
+			unlink('./gazou'.$pro_gazou_name);
+		}
 	}
 	catch (Exception $e)
 	{
