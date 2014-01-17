@@ -27,8 +27,11 @@ else
 
 	<?php
 
-	$pro_name=$_POST['name'];
-	$pro_price=$_POST['price'];
+	require_one('../common/common.php');
+
+	$post=sanitize($_POST);
+	$pro_name=$post['name'];
+	$pro_price=$post['price'];
 	$pro_gazou=$_FILES['gazou'];
 
 	$pro_name=htmlspecialchars($pro_name);
