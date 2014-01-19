@@ -27,7 +27,7 @@ else
 
 	<?php
 
-	require_one('../common/common.php');
+	require_once('../common/common.php');
 
 	$post=sanitize($_POST);
 	$pro_name=$post['name'];
